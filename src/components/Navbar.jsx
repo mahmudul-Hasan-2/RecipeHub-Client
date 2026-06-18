@@ -54,7 +54,7 @@ export default function AppNavbar() {
       className="fixed top-0 left-0 z-50 pt-4 px-4 w-full"
     >
       <div className="mx-auto max-w-7xl relative">
-        {/* 🌟 ডাইনামিক গ্লো ইফেক্ট */}
+        {/* 🌟 ব্যাকগ্রাউন্ড ডাইনামিক গ্লো ইফেক্ট */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl">
           <motion.div
             animate={{
@@ -71,7 +71,7 @@ export default function AppNavbar() {
           />
         </div>
 
-        {/* 🪟 আল্ট্রা-প্রিমিয়াম গ্লাস বডি */}
+        {/* 🪟 আল্ট্রা-প্রিমিয়াম গ্লাস বডি */}
         <div
           className={`relative overflow-hidden rounded-2xl transition-all duration-500 border
             ${
@@ -86,7 +86,7 @@ export default function AppNavbar() {
             backdrop-blur-xl`}
         >
           <div className="relative flex h-16 items-center justify-between px-6 sm:px-8">
-            {/* Logo */}
+            {/* 🥚 Logo */}
             <div className="flex-1 flex justify-start">
               <Link href="/" className="group flex items-center gap-3">
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-orange-500 to-amber-500 text-white shadow-md shadow-orange-500/20 transition-transform group-hover:scale-105">
@@ -104,7 +104,7 @@ export default function AppNavbar() {
               </Link>
             </div>
 
-            {/* Nav Links */}
+            {/* 🗺️ Nav Links (Desktop) */}
             <nav className="hidden md:flex justify-center">
               <ul className="flex items-center gap-1 bg-zinc-900/5 dark:bg-white/5 p-1 rounded-xl border border-zinc-200/20 dark:border-white/5">
                 {navLinks.map((link) => {
@@ -139,7 +139,7 @@ export default function AppNavbar() {
               </ul>
             </nav>
 
-            {/* Actions & Toggler */}
+            {/* 🛠️ Actions & Toggler */}
             <div className="flex-1 flex justify-end items-center gap-3">
               {/* 🌓 থিম টগল বাটন */}
               {mounted && (
@@ -147,7 +147,7 @@ export default function AppNavbar() {
                   onClick={() =>
                     setTheme(resolvedTheme === "dark" ? "light" : "dark")
                   }
-                  className="relative h-9 w-9 rounded-xl flex items-center justify-center bg-zinc-100 dark:bg-zinc-900/80 hover:bg-zinc-200 dark:hover:bg-zinc-800 border border-zinc-200/60 dark:border-zinc-800/80 text-zinc-700 dark:text-zinc-300 transition-all duration-200 shadow-sm overflow-hidden"
+                  className="relative h-9 w-9 rounded-xl flex items-center justify-center bg-zinc-100 dark:bg-zinc-900/80 hover:bg-zinc-200 dark:hover:bg-zinc-800 border border-zinc-200/60 dark:border-zinc-800/80 text-zinc-700 dark:text-zinc-300 transition-all duration-200 shadow-sm overflow-hidden cursor-pointer"
                   aria-label="Toggle theme"
                 >
                   <AnimatePresence mode="wait" initial={false}>
@@ -171,36 +171,34 @@ export default function AppNavbar() {
                 </button>
               )}
 
-              {/* Desktop Auth Buttons (এখানে বড় ডিভাইসের জন্য আইকন যোগ করা হয়েছে) */}
+              {/* 💻 Desktop Auth Buttons (Clean Next.js Link Wrapper) */}
               <div className="hidden sm:flex items-center gap-2">
-                <Button
-                  as={Link}
-                  href="/login"
-                  variant="light"
-                  className="text-xs font-bold text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 h-9 px-4 rounded-xl transition-colors"
-                >
-                  <span className="flex items-center gap-1.5">
-                    <FiLogIn size={14} />
-                    Login
-                  </span>
-                </Button>
+                <Link href="/login">
+                  <Button
+                    variant="light"
+                    className="text-xs font-bold text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 h-9 px-4 rounded-xl transition-colors"
+                  >
+                    <span className="flex items-center gap-1.5">
+                      <FiLogIn size={14} />
+                      Login
+                    </span>
+                  </Button>
+                </Link>
 
-                <Button
-                  as={Link}
-                  href="/register"
-                  className="bg-linear-to-r from-orange-500 to-amber-500 text-white font-bold text-xs shadow-md shadow-orange-500/10 h-9 px-4 rounded-xl hover:opacity-90 transition-opacity"
-                >
-                  <span className="flex items-center gap-1.5">
-                    <FiUserPlus size={14} />
-                    Register
-                  </span>
-                </Button>
+                <Link href="/register">
+                  <Button className="bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-xs shadow-md shadow-orange-500/10 h-9 px-4 rounded-xl hover:opacity-90 transition-opacity">
+                    <span className="flex items-center gap-1.5">
+                      <FiUserPlus size={14} />
+                      Register
+                    </span>
+                  </Button>
+                </Link>
               </div>
 
               {/* Mobile Menu Trigger */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="inline-flex items-center justify-center rounded-xl p-2 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900 md:hidden transition-colors border border-transparent hover:border-zinc-200/50 dark:hover:border-zinc-800/50"
+                className="inline-flex items-center justify-center rounded-xl p-2 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900 md:hidden transition-colors border border-transparent hover:border-zinc-200/50 dark:hover:border-zinc-800/50 cursor-pointer"
                 aria-label="Toggle Menu"
               >
                 {isMenuOpen ? <FiX size={18} /> : <FiMenu size={18} />}
@@ -208,7 +206,7 @@ export default function AppNavbar() {
             </div>
           </div>
 
-          {/* Mobile Dropdown */}
+          {/* 📱 Mobile Dropdown */}
           <AnimatePresence>
             {isMenuOpen && (
               <motion.div
@@ -241,6 +239,7 @@ export default function AppNavbar() {
 
                   <div className="h-[1px] bg-zinc-200/50 dark:bg-zinc-800/50 my-2" />
 
+                  {/* Mobile View Auth Links */}
                   <li className="sm:hidden">
                     <Link
                       href="/login"
@@ -251,16 +250,14 @@ export default function AppNavbar() {
                       Login
                     </Link>
                   </li>
+
                   <li className="sm:hidden pt-1">
-                    <Button
-                      as={Link}
-                      href="/register"
-                      onClick={() => setIsMenuOpen(false)}
-                      className="flex items-center justify-center w-full py-5 rounded-xl text-sm font-bold bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-sm"
-                    >
-                      <FiUserPlus size={16} className="mr-2" />
-                      Register
-                    </Button>
+                    <Link href="/register" onClick={() => setIsMenuOpen(false)}>
+                      <Button className="flex items-center justify-center w-full py-5 rounded-xl text-sm font-bold bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-sm">
+                        <FiUserPlus size={16} className="mr-2" />
+                        Register
+                      </Button>
+                    </Link>
                   </li>
                 </ul>
               </motion.div>

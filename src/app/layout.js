@@ -2,6 +2,7 @@ import { ThemeProvider } from "@/components/ThemeProvider"; // প্রোভ�
 import AppNavbar from "@/components/Navbar"; // তোমার নেভবার কম্পোনেন্ট
 import "./globals.css";
 import AppFooter from "@/components/Footer";
+import { Toaster } from "react-hot-toast";
 
 export const metadata = {
   title: "RecipeHub",
@@ -18,6 +19,7 @@ export default function RootLayout({ children }) {
           <main className="flex-1 pt-24">{children}</main>
           <AppFooter></AppFooter>
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );
