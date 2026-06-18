@@ -188,7 +188,7 @@ export default function AppNavbar() {
                 <Button
                   as={Link}
                   href="/register"
-                  className="bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-xs shadow-md shadow-orange-500/10 h-9 px-4 rounded-xl hover:opacity-90 transition-opacity"
+                  className="bg-linear-to-r from-orange-500 to-amber-500 text-white font-bold text-xs shadow-md shadow-orange-500/10 h-9 px-4 rounded-xl hover:opacity-90 transition-opacity"
                 >
                   <span className="flex items-center gap-1.5">
                     <FiUserPlus size={14} />
@@ -271,4 +271,3 @@ export default function AppNavbar() {
     </motion.header>
   );
 }
-
