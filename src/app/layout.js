@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
       <body className="min-h-full flex flex-col bg-background text-foreground antialiased ">
         <ThemeProvider>
           <AppNavbar />
-          <main className="flex-1 pt-24">{children}</main>
+          <main className="pt-24">{children}</main>
           <AppFooter></AppFooter>
         </ThemeProvider>
         <Toaster />
