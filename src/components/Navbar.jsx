@@ -214,7 +214,7 @@ export default function AppNavbar() {
               {mounted && !isPending && (
                 <>
                   {user ? (
-                    <div className="hidden sm:block">
+                    <div className="hidden md:block">
                       <Popover
                         placement="bottom-end"
                         offset={10}
@@ -241,7 +241,7 @@ export default function AppNavbar() {
                             )}
                           </button>
                         </PopoverTrigger>
-                        <PopoverContent className="w-60 p-0 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-xl border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl shadow-xl">
+                        <PopoverContent className="w-60 p-0 hidden md:block bg-white/90 dark:bg-zinc-950/90 backdrop-blur-xl border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl shadow-xl">
                           <div className="flex flex-col w-full">
                             <div className="p-4 flex items-center gap-3 border-b border-zinc-100 dark:border-zinc-900 bg-zinc-50/50 dark:bg-zinc-900/30">
                               {user.image ? (

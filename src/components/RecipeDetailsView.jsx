@@ -118,7 +118,7 @@ const RecipeDetailsView = ({ recipe }) => {
         <Card className="lg:col-span-2 border border-divider/50 shadow-sm dark:shadow-none rounded-[2rem] bg-content1/50 dark:bg-content1/30 backdrop-blur-md p-8 md:p-10">
           <div className="flex items-center gap-3 mb-8">
             <ChefHat className="text-primary" size={24} />
-            <h2 className="text-2xl font-black tracking-tight text-foreground">
+            <h2 className="text-base md:text-2xl font-black tracking-tight text-foreground">
               Required Ingredients
             </h2>
           </div>
@@ -184,7 +184,7 @@ const RecipeDetailsView = ({ recipe }) => {
       {/* 📝 Preparation Process Section */}
       <section className="bg-default-50/30 dark:bg-default-100/10 border border-divider/40 p-6 md:p-10 rounded-[2.5rem]">
         <div className="max-w-3xl mb-12">
-          <h2 className="text-2xl md:text-3xl font-black tracking-tight mb-2 text-foreground">
+          <h2 className="text-base md:text-3xl font-black tracking-tight mb-2 text-foreground">
             Preparation Process
           </h2>
           <p className="text-default-400 text-sm font-medium">

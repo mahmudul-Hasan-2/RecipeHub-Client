@@ -8,6 +8,14 @@ export async function getRecipeById(recipeId) {
   return serverFetch(`/api/recipes/${recipeId}`);
 }
 
-export async function getRecipes(currentPage = 1, perPage = 9) {
-  return serverFetch(`/api/recipes?page=${currentPage}&perPage=${perPage}`);
+export async function getRecipes(
+  currentPage = 1,
+  perPage = 12,
+  search = "",
+  category = "",
+  cuisine = "",
+) {
+  return serverFetch(
+    `/api/recipes?page=${currentPage}&perPage=${perPage}&search=${encodeURIComponent(search)}&category=${encodeURIComponent(category)}&cuisine=${encodeURIComponent(cuisine)}`,
+  );
 }
