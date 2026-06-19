@@ -16,6 +16,7 @@ import {
   FiSun,
   FiMoon,
   FiLogOut,
+  FiUser,
 } from "react-icons/fi";
 import { FaEgg } from "react-icons/fa";
 import { Button, Popover, PopoverTrigger, PopoverContent } from "@heroui/react";
@@ -65,6 +66,20 @@ export default function AppNavbar() {
       href: "/browse-recipes",
       icon: <FiCompass size={16} />,
     },
+    ...(user?.email
+      ? [
+          {
+            name: "My Profile",
+            href: "/profile",
+            icon: <FiUser size={16} />,
+          },
+          {
+            name: "Dashboard",
+            href: `/dashboard/${user?.role}`,
+            icon: <FiHome size={16} />,
+          },
+        ]
+      : []),
   ];
 
   const isDark = mounted && resolvedTheme === "dark";

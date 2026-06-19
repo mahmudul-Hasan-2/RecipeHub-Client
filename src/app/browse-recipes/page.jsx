@@ -1,8 +1,8 @@
 import { getRecipes } from "@/lib/api/recipes";
 import React from "react";
-import RecipeCard from "@/components/RecipeCard";
-import Pagination from "@/components/Pagination";
-import FilterPanel from "@/components/FilterPanel";
+import RecipeCard from "@/components/recipes/RecipeCard";
+import Pagination from "@/components/recipes/Pagination";
+import FilterPanel from "@/components/recipes/FilterPanel";
 
 const BrowseRecipes = async ({ searchParams }) => {
   const resolvedParams = await searchParams;

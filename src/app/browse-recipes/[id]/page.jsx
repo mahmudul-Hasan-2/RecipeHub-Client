@@ -1,4 +1,4 @@
-import RecipeDetailsView from "@/components/RecipeDetailsView";
+import RecipeDetailsView from "@/components/recipes/RecipeDetailsView";
 import { getRecipeById } from "@/lib/api/recipes";
 import React from "react";
 

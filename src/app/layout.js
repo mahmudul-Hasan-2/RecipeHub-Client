@@ -1,7 +1,7 @@
 import { ThemeProvider } from "@/components/ThemeProvider"; // প্রোভাইডার ইমপোর্ট করো
 import AppNavbar from "@/components/Navbar"; // তোমার নেভবার কম্পোনেন্ট
 import "./globals.css";
-import AppFooter from "@/components/Footer";
+import AppFooter from "@/components/recipes/Footer";
 import { Toaster } from "react-hot-toast";
 
 export const metadata = {

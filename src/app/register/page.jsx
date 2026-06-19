@@ -34,7 +34,8 @@ function RegisterForm() {
       email,
       password,
       name,
-      image: imageUrl || undefined, // 👈 BetterAuth-এ ইমেজ ইউআরএল পাস করা হচ্ছে
+      image: imageUrl || undefined,
+      role: "user",
       callbackURL: callbackUrl,
     });
 

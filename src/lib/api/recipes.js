@@ -19,3 +19,7 @@ export async function getRecipes(
     `/api/recipes?page=${currentPage}&perPage=${perPage}&search=${encodeURIComponent(search)}&category=${encodeURIComponent(category)}&cuisine=${encodeURIComponent(cuisine)}`,
   );
 }
+
+export const getMyRecipes = async (authorId) => {
+  return serverFetch(`/api/recipes/my/${authorId}`);
+};
