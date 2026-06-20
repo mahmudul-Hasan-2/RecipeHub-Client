@@ -1,7 +1,7 @@
 import { getMyRecipes } from "@/lib/api/recipes";
 import { getSession } from "@/lib/core/session";
 import React from "react";
-import MyRecipeCard from "@/components/dashboard/MyRecipeCard";
+import MyRecipeCard from "@/components/dashboard/user/MyRecipeCard";
 import Link from "next/link";
 import { FiPlus } from "react-icons/fi";
 

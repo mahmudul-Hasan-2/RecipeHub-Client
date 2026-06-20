@@ -19,7 +19,11 @@ export default function RootLayout({ children }) {
           <main className="pt-24">{children}</main>
           <AppFooter></AppFooter>
         </ThemeProvider>
-        <Toaster />
+        <Toaster
+          containerStyle={{
+            zIndex: 99999, // মোডালের z-[9999] এর চেয়েও বেশি যেন ব্লারের উপরে থাকে
+          }}
+        />
       </body>
     </html>
   );

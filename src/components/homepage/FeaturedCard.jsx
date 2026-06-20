@@ -5,7 +5,7 @@ import { FiClock, FiGlobe, FiTag, FiArrowRight } from "react-icons/fi";
 import Link from "next/link";
 import { Button } from "@heroui/react";
 
-const RecipeCard = ({ recipe }) => {
+const FeaturedCard = ({ recipe }) => {
   if (!recipe) return null;
 
   const {
@@ -29,6 +29,7 @@ const RecipeCard = ({ recipe }) => {
             alt={recipeName}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
+
           <div className="absolute top-3 left-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow-md z-10">
             Featured
           </div>
@@ -42,6 +43,7 @@ const RecipeCard = ({ recipe }) => {
                 {category}
               </span>
             )}
+
             {cuisineType && (
               <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-lg bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400">
                 <FiGlobe size={12} />
@@ -59,6 +61,7 @@ const RecipeCard = ({ recipe }) => {
               <FiClock size={14} className="text-amber-500" />
               <span className="text-xs font-semibold">Prep Time</span>
             </div>
+
             <span className="text-xs font-black text-zinc-700 dark:text-zinc-300">
               {preparationTime || "N/A"}
             </span>
@@ -85,4 +88,4 @@ const RecipeCard = ({ recipe }) => {
   );
 };
 
-export default RecipeCard;
+export default FeaturedCard;

@@ -1,5 +1,7 @@
+"use client";
+
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import {
   ArrowLeft,
   Clock3,
@@ -8,10 +10,21 @@ import {
   Mail,
   Tag,
   BookOpen,
+  CreditCard,
+  Bookmark,
+  AlertTriangle,
+  FiX,
+  FiAlertOctagon,
 } from "lucide-react";
 import { Button, Chip, Card } from "@heroui/react";
 
 const RecipeDetailsView = ({ recipe }) => {
+  // 🔘 UI States (For client interaction without backend functionality)
+  const [isLiked, setIsLiked] = useState(false);
+  const [isFavorited, setIsFavorited] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  const [reportReason, setReportReason] = useState("");
+
   if (!recipe || !recipe.recipeName) {
     return (
       <div className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center gap-4 antialiased">
@@ -43,7 +56,16 @@ const RecipeDetailsView = ({ recipe }) => {
     authorName,
     authorEmail,
     likeCount,
+    price = "$4.99", // ডেমো প্রাইস মামা
   } = recipe;
+
+  // 🚨 Report Modal Submit Handler (UI only)
+  const handleReportSubmit = (e) => {
+    e.preventDefault();
+    alert(`Reported for: ${reportReason || "Not specified"}`);
+    setIsReportModalOpen(false);
+    setReportReason("");
+  };
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12 antialiased text-foreground bg-background transition-colors duration-300">
@@ -61,8 +83,8 @@ const RecipeDetailsView = ({ recipe }) => {
         </Link>
       </div>
 
-      {/* 🎬 Cinematic Hero Banner (Next.js config এর ঝামেলা এড়াতে <img> দিয়ে ফিক্সড করা) */}
-      <div className="relative overflow-hidden rounded-[2rem] mb-12 h-[300px] sm:h-[400px] md:h-[480px] shadow-xl group bg-default-100">
+      {/* 🎬 Cinematic Hero Banner */}
+      <div className="relative overflow-hidden rounded-[2rem] mb-8 h-[300px] sm:h-[400px] md:h-[480px] shadow-xl group bg-default-100">
         {recipeImage && (
           <img
             src={recipeImage}
@@ -70,7 +92,6 @@ const RecipeDetailsView = ({ recipe }) => {
             className="w-full h-full object-cover transform group-hover:scale-102 transition-transform duration-700 ease-out"
           />
         )}
-        {/* Cinematic gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent z-10" />
 
         <div className="absolute inset-x-0 bottom-0 p-6 md:p-10 z-20 flex flex-col justify-end h-full">
@@ -80,9 +101,10 @@ const RecipeDetailsView = ({ recipe }) => {
         </div>
       </div>
 
-      {/* 🏷️ Glossy Meta Row */}
-      <div className="mb-14 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 border-b border-divider/60 pb-8">
-        <div className="flex flex-wrap gap-2.5">
+      {/* ⚡ Glossy Interaction & Meta Row */}
+      <div className="mb-14 flex flex-col md:flex-row md:items-center md:justify-between gap-6 border-b border-divider/60 pb-8">
+        {/* Left Side: Badges */}
+        <div className="flex flex-wrap items-center gap-2.5">
           <Chip
             color="primary"
             variant="flat"
@@ -98,23 +120,54 @@ const RecipeDetailsView = ({ recipe }) => {
           >
             {cuisineType || "International"}
           </Chip>
+          <div className="flex items-center gap-1.5 bg-default-50 dark:bg-default-100/40 px-3 py-1.5 rounded-full border border-divider/40 text-xs sm:text-sm font-bold text-default-500">
+            <Clock3 size={16} className="text-primary" />
+            <span>{preparationTime || "45 mins"}</span>
+          </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-4 text-default-500 font-bold text-sm md:text-base">
-          <div className="flex items-center gap-2 bg-default-50 dark:bg-default-100/40 px-4 py-2 rounded-2xl border border-divider/40">
-            <Clock3 size={18} className="text-primary" />
-            <span>{preparationTime || "45 mins"} Cooking</span>
-          </div>
-          <div className="flex items-center gap-2 bg-danger-50/60 dark:bg-danger-950/20 text-danger-600 dark:text-danger-400 px-4 py-2 rounded-2xl border border-danger-100/30 dark:border-danger-900/20">
-            <Heart size={18} className="fill-current" />
-            <span>{likeCount || 0} Appreciations</span>
-          </div>
+        {/* Right Side: Interactive Action Buttons (Like, Fav, Report) */}
+        <div className="flex flex-wrap items-center gap-3">
+          {/* ❤️ Like Button */}
+          <button
+            onClick={() => setIsLiked(!isLiked)}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl border transition-all active:scale-95 text-sm font-bold ${
+              isLiked
+                ? "bg-danger-500 text-white border-danger-500 shadow-lg shadow-danger-500/20"
+                : "bg-danger-50/60 dark:bg-danger-950/20 text-danger-600 dark:text-danger-400 border-danger-100/30 dark:border-danger-900/20 hover:bg-danger-500 hover:text-white"
+            }`}
+          >
+            <Heart size={18} className={isLiked ? "fill-current" : ""} />
+            <span>{isLiked ? (likeCount || 0) + 1 : likeCount || 0} Likes</span>
+          </button>
+
+          {/* 🔖 Favorite Button */}
+          <button
+            onClick={() => setIsFavorited(!isFavorited)}
+            className={`p-2.5 rounded-2xl border transition-all active:scale-95 ${
+              isFavorited
+                ? "bg-warning-500 text-white border-warning-500 shadow-lg shadow-warning-500/20"
+                : "bg-default-100/70 dark:bg-default-100/20 text-default-600 dark:text-default-400 border-divider/40 hover:bg-warning-500 hover:text-white"
+            }`}
+            title="Add to Favorites"
+          >
+            <Bookmark size={18} className={isFavorited ? "fill-current" : ""} />
+          </button>
+
+          {/* 🚨 Report Button */}
+          <button
+            onClick={() => setIsReportModalOpen(true)}
+            className="p-2.5 rounded-2xl border border-divider/40 bg-default-100/70 dark:bg-default-100/20 text-default-500 hover:bg-rose-500 hover:text-white hover:border-rose-500 transition-all active:scale-95"
+            title="Report Recipe"
+          >
+            <AlertTriangle size={18} />
+          </button>
         </div>
       </div>
 
       {/* 📊 Main Bento Grid Content */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 mb-16 items-start">
-        {/* Ingredients Card (প্যাডিং এবং স্পেসিং বাড়ানো হয়েছে) */}
+        {/* Ingredients Card */}
         <Card className="lg:col-span-2 border border-divider/50 shadow-sm dark:shadow-none rounded-[2rem] bg-content1/50 dark:bg-content1/30 backdrop-blur-md p-8 md:p-10">
           <div className="flex items-center gap-3 mb-8">
             <ChefHat className="text-primary" size={24} />
@@ -123,7 +176,6 @@ const RecipeDetailsView = ({ recipe }) => {
             </h2>
           </div>
 
-          {/* আইটেমগুলোর ভেতরের গ্যাপ বাড়িয়ে gap-5 এবং p-4.5 করা হয়েছে */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {ingredients.map((ingredient, index) => (
               <div
@@ -139,46 +191,86 @@ const RecipeDetailsView = ({ recipe }) => {
           </div>
         </Card>
 
-        {/* Author Profile Card */}
-        <Card className="border border-divider/50 shadow-sm dark:shadow-none rounded-[2rem] bg-content1/50 dark:bg-content1/30 backdrop-blur-md p-8 md:p-10">
-          <h2 className="text-xs font-black mb-6 tracking-wider text-default-400 uppercase">
-            Recipe Curator
-          </h2>
+        {/* Right Side Stack: Author Profile & Premium Purchase Card */}
+        <div className="space-y-6">
+          {/* 💳 Purchase CTA Card (Stripe Integration Target) */}
+          <Card className="border-2 border-primary/30 shadow-xl rounded-[2rem] bg-gradient-to-br from-primary/10 via-content1 to-content1 p-6 md:p-8 text-center relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-24 h-24 bg-primary/10 rounded-full blur-xl -mr-6 -mt-6" />
 
-          <div className="flex flex-col items-center text-center p-5 rounded-2xl bg-default-50/50 dark:bg-default-100/20 border border-divider/30 mb-6">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-primary to-secondary  flex items-center justify-center text-2xl font-black shadow-md shadow-primary/10 mb-3 shrink-0">
-              {authorName?.charAt(0)?.toUpperCase() || "C"}
-            </div>
-            <h3 className="font-extrabold text-lg text-foreground tracking-tight">
-              {authorName || "Anonymous Chef"}
+            <span className="text-xs font-black text-primary uppercase tracking-widest bg-primary/10 px-3 py-1 rounded-full inline-block mb-3">
+              Premium Access
+            </span>
+            <h3 className="text-xl font-black text-foreground tracking-tight">
+              Unlock Full Cookbook
             </h3>
-            {authorEmail && (
-              <div className="flex items-center gap-1.5 text-xs text-default-400 mt-1 max-w-full">
-                <Mail size={12} className="shrink-0" />
-                <span className="truncate max-w-[160px]">{authorEmail}</span>
-              </div>
-            )}
-          </div>
+            <p className="text-default-400 text-xs mt-1 leading-relaxed">
+              Get lifetime access to high-res video tutorials and secret chef
+              tips.
+            </p>
+            <div className="my-5">
+              <span className="text-3xl font-black text-foreground">
+                {price}
+              </span>
+              <span className="text-default-400 text-xs font-bold">
+                {" "}
+                /one-time
+              </span>
+            </div>
 
-          <div className="space-y-4 pt-2">
-            <div className="flex items-center justify-between text-sm font-semibold">
-              <span className="text-default-400 flex items-center gap-1.5">
-                <Tag size={14} /> Taxonomy
-              </span>
-              <span className="text-default-600 dark:text-default-400">
-                {category || "Unassigned"}
-              </span>
+            {/* 🛒 Purchase Button */}
+            <Button
+              color="primary"
+              size="lg"
+              className="w-full font-black uppercase tracking-wider rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-2 h-12"
+              onClick={() =>
+                alert("Redirecting to Stripe Checkout workflow... 💳")
+              }
+            >
+              <CreditCard size={18} /> Buy This Recipe
+            </Button>
+          </Card>
+
+          {/* Author Profile Card */}
+          <Card className="border border-divider/50 shadow-sm dark:shadow-none rounded-[2rem] bg-content1/50 dark:bg-content1/30 backdrop-blur-md p-6 md:p-8">
+            <h2 className="text-xs font-black mb-6 tracking-wider text-default-400 uppercase">
+              Recipe Curator
+            </h2>
+
+            <div className="flex flex-col items-center text-center p-5 rounded-2xl bg-default-50/50 dark:bg-default-100/20 border border-divider/30 mb-6">
+              <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-primary to-secondary flex items-center justify-center text-2xl font-black shadow-md shadow-primary/10 mb-3 shrink-0 text-white">
+                {authorName?.charAt(0)?.toUpperCase() || "C"}
+              </div>
+              <h3 className="font-extrabold text-lg text-foreground tracking-tight">
+                {authorName || "Anonymous Chef"}
+              </h3>
+              {authorEmail && (
+                <div className="flex items-center gap-1.5 text-xs text-default-400 mt-1 max-w-full">
+                  <Mail size={12} className="shrink-0" />
+                  <span className="truncate max-w-[160px]">{authorEmail}</span>
+                </div>
+              )}
             </div>
-            <div className="flex items-center justify-between text-sm font-semibold">
-              <span className="text-default-400 flex items-center gap-1.5">
-                <BookOpen size={14} /> Total Steps
-              </span>
-              <span className="bg-primary/10 text-primary px-2 py-0.5 rounded-lg text-xs font-bold">
-                {instructions.length} Steps
-              </span>
+
+            <div className="space-y-4 pt-2">
+              <div className="flex items-center justify-between text-sm font-semibold">
+                <span className="text-default-400 flex items-center gap-1.5">
+                  <Tag size={14} /> Taxonomy
+                </span>
+                <span className="text-default-600 dark:text-default-400">
+                  {category || "Unassigned"}
+                </span>
+              </div>
+              <div className="flex items-center justify-between text-sm font-semibold">
+                <span className="text-default-400 flex items-center gap-1.5">
+                  <BookOpen size={14} /> Total Steps
+                </span>
+                <span className="bg-primary/10 text-primary px-2 py-0.5 rounded-lg text-xs font-bold">
+                  {instructions.length} Steps
+                </span>
+              </div>
             </div>
-          </div>
-        </Card>
+          </Card>
+        </div>
       </div>
 
       {/* 📝 Preparation Process Section */}
@@ -217,6 +309,65 @@ const RecipeDetailsView = ({ recipe }) => {
           ))}
         </div>
       </section>
+
+      {/* ⚠️ Report Recipe Modal Layer (Pure Portal/HTML implementation to maintain high z-index over blurry sheets) */}
+      {isReportModalOpen && (
+        <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4">
+          <div
+            className="absolute inset-0 bg-black/60 backdrop-blur-md"
+            onClick={() => setIsReportModalOpen(false)}
+          />
+          <div className="relative w-full max-w-md rounded-[2rem] border border-divider bg-background p-6 sm:p-8 shadow-2xl text-foreground animate-in fade-in zoom-in-95 duration-200">
+            <button
+              onClick={() => setIsReportModalOpen(false)}
+              className="absolute top-6 right-6 p-2 rounded-full bg-default-100 text-default-500 hover:bg-default-200 transition-colors"
+            >
+              <FiX size={16} />
+            </button>
+
+            <div className="w-12 h-12 rounded-2xl bg-danger-500/10 flex items-center justify-center text-danger mx-auto mb-4 border border-danger/20">
+              <FiAlertOctagon size={24} />
+            </div>
+
+            <h3 className="text-xl font-black text-center tracking-tight mb-2">
+              Report This Recipe
+            </h3>
+            <p className="text-default-400 text-xs text-center leading-relaxed mb-6">
+              Help us maintain community standards. Please describe why this
+              recipe violates policies.
+            </p>
+
+            <form onSubmit={handleReportSubmit} className="space-y-4">
+              <textarea
+                required
+                rows={4}
+                value={reportReason}
+                onChange={(e) => setReportReason(e.target.value)}
+                placeholder="Provide a detailed description of the issue (e.g., plagiarized text, inappropriate imagery, dangerous ingredients)..."
+                className="w-full rounded-2xl border border-divider bg-default-50/50 p-4 text-sm font-medium focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-default-400 text-foreground transition-all resize-none"
+              />
+
+              <div className="flex gap-3 pt-2">
+                <Button
+                  type="button"
+                  variant="flat"
+                  className="flex-1 rounded-xl font-bold"
+                  onClick={() => setIsReportModalOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  color="danger"
+                  className="flex-1 rounded-xl font-extrabold uppercase tracking-wider"
+                >
+                  Submit Report
+                </Button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

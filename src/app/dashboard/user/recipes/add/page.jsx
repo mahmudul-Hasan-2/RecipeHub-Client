@@ -1,5 +1,5 @@
 import React from "react";
-import AddRecipeForm from "@/components/dashboard/AddRecipeForm";
+import AddRecipeForm from "@/components/dashboard/user/AddRecipeForm";
 
 const AddRecipePage = () => {
   return (

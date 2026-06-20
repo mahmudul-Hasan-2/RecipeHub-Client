@@ -20,6 +20,10 @@ export async function getRecipes(
   );
 }
 
+export async function mostLikedRecipes() {
+  return serverFetch("/api/most-liked/recipes");
+}
+
 export const getMyRecipes = async (authorId) => {
   return serverFetch(`/api/recipes/my/${authorId}`);
 };
