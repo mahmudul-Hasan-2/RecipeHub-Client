@@ -372,4 +372,5 @@ const RecipeDetailsView = ({ recipe }) => {
   );
 };
 
+
 export default RecipeDetailsView;
