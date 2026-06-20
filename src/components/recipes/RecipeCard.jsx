@@ -15,7 +15,7 @@ const RecipeCard = ({ recipe }) => {
     category,
     cuisineType,
     preparationTime,
-    likeCount,
+    likesCount,
   } = recipe;
 
   return (
@@ -26,7 +26,7 @@ const RecipeCard = ({ recipe }) => {
           <img
             src={recipeImage}
             alt={recipeName}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+            className="w-full h-full rounded-[2rem] object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-default-400 text-sm">
@@ -65,7 +65,7 @@ const RecipeCard = ({ recipe }) => {
           </div>
           <div className="flex items-center gap-1.5 text-danger-500">
             <Heart size={16} className="fill-current" />
-            <span>{likeCount || 0}</span>
+            <span>{likesCount || 0}</span>
           </div>
         </div>
 

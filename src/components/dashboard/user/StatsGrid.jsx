@@ -1,39 +1,31 @@
 import React from "react";
 
-const StatsGrid = () => {
+// ধরলাম তোমার ডেটাগুলো props হিসেবে আসছে অথবা এখানে ডিফাইন করা আছে
+const StatsGrid = ({ recipes = [], favourites = [], likes = [] }) => {
   const stats = [
     {
       id: 1,
       label: "Total Recipes",
-      value: "14",
-      change: "+2 this week",
+      value: recipes.length, // এখানে রেসিপিগুলোর লেন্থ দেখাচ্ছে
       icon: "🍳",
     },
     {
       id: 2,
-      label: "Total Views",
-      value: "15.8k",
-      change: "+12.3% growth",
-      icon: "👁️",
+      label: "Total Favorites",
+      value: favourites.length, // এখানে ফেভারিটগুলোর লেন্থ দেখাচ্ছে
+      icon: "🔖",
     },
     {
       id: 3,
-      label: "Total Likes",
-      value: "2,430",
+      label: "Likes Received",
+      value: likes.toString(), // এখানে লাইকগুলোর সংখ্যা দেখাচ্ছে
       change: "+45 today",
       icon: "❤️",
-    },
-    {
-      id: 4,
-      label: "Saved Recipes",
-      value: "38",
-      change: "Private collection",
-      icon: "🔖",
     },
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       {stats.map((stat) => (
         <div
           key={stat.id}

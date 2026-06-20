@@ -36,6 +36,7 @@ function RegisterForm() {
       name,
       image: imageUrl || undefined,
       role: "user",
+      isPremimum: false,
       callbackURL: callbackUrl,
     });
 

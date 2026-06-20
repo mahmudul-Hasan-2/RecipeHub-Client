@@ -11,3 +11,7 @@ export const updateRecipe = async (recipe, id) => {
 export const deleteRecipe = async (id) => {
   return serverMutation(`/api/myRecipe/${id}`, [], "DELETE");
 };
+
+export const updateLikeCount = async (recipeId, likedPayload) => {
+  return serverMutation(`/api/like/recipe/${recipeId}`, likedPayload, "PATCH");
+};

@@ -48,7 +48,7 @@ const Sidebar = async () => {
 
   return (
     <>
-      <aside className="hidden md:flex flex-col w-64 h-screen fixed left-0 top-0 bg-white/70 dark:bg-zinc-950/40 backdrop-blur-xl border-r border-zinc-200/60 dark:border-zinc-800/80 p-6 pt-24 justify-between antialiased transition-all duration-300 z-[100]">
+      <aside className="hidden lg:flex flex-col w-64 h-screen fixed left-0 top-0 bg-white/70 dark:bg-zinc-950/40 backdrop-blur-xl border-r border-zinc-200/60 dark:border-zinc-800/80 p-6 pt-24 justify-between antialiased transition-all duration-300 z-[100]">
         <div className="space-y-6">
           <div className="flex items-center gap-3 px-2 py-1.5 rounded-2xl bg-zinc-100/50 dark:bg-zinc-900/40 border border-zinc-200/40 dark:border-zinc-800/40">
             <Image
@@ -98,7 +98,7 @@ const Sidebar = async () => {
         </div>
       </aside>
 
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-white/80 dark:bg-zinc-950/60 backdrop-blur-xl border-t border-zinc-200/60 dark:border-zinc-800/80 px-4 flex items-center justify-around z-50 transition-colors duration-300 shadow-[0_-4px_24px_rgba(0,0,0,0.04)]">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-white/80 dark:bg-zinc-950/60 backdrop-blur-xl border-t border-zinc-200/60 dark:border-zinc-800/80 px-4 flex items-center justify-around z-50 transition-colors duration-300 shadow-[0_-4px_24px_rgba(0,0,0,0.04)]">
         {menuItems.slice(0, 5).map((item, index) => {
           const Icon = item.icon;
           return (

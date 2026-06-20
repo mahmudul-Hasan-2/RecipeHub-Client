@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ArrowLeft,
   Clock3,
@@ -13,17 +13,85 @@ import {
   CreditCard,
   Bookmark,
   AlertTriangle,
-  FiX,
-  FiAlertOctagon,
 } from "lucide-react";
+import { FiAlertOctagon, FiX } from "react-icons/fi";
 import { Button, Chip, Card } from "@heroui/react";
+import toast from "react-hot-toast";
+
+// 🛠️ প্রোজেক্টের ডিরেক্টরি অনুযায়ী পাথগুলো ঠিক রেখো মামা
+import { authClient } from "@/lib/auth-client";
+import { updateLikeCount } from "@/lib/actions/recipes";
+import { getLikes } from "@/lib/api/Likes";
+import { useRouter } from "next/navigation";
+import { addFavouriteRecipe } from "@/lib/actions/Favourites";
+import { getFavourites } from "@/lib/api/Favourites";
 
 const RecipeDetailsView = ({ recipe }) => {
-  // 🔘 UI States (For client interaction without backend functionality)
+  // 🔐 Auth সেশন থেকে ইউজার এবং ইমেইল ডিটেইলস বের করা
+  const { data } = authClient.useSession();
+  const user = data?.user;
+
+  const router = useRouter();
+
+  // 🔘 UI States
   const [isLiked, setIsLiked] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [reportReason, setReportReason] = useState("");
+
+  // 🔄 পেজ লোড হওয়ার সময় ইউজার আগে লাইক করেছে কি না তা চেক করার জন্য useEffect
+  useEffect(() => {
+    const checkInitialLike = async () => {
+      if (!user?.id || !recipe?._id) return;
+
+      try {
+        const allLikes = await getLikes();
+        const hasLiked = allLikes.some(
+          (like) => like.recipeId === recipe._id && like.userId === user.id,
+        );
+        setIsLiked(hasLiked);
+      } catch (error) {
+        console.error("Error fetching initial likes:", error);
+      }
+    };
+
+    checkInitialLike();
+  }, [user?.id, recipe?._id]);
+
+  // 🔄 পেজ লোড হওয়ার সময় ইউজার অলরেডি ফেভারিট করেছে কি না তা getFavourites দিয়ে চেক করা
+  useEffect(() => {
+    let isMounted = true;
+
+    const checkInitialFavorite = async () => {
+      // ইউজার বা রেসিপি না থাকলে রিটার্ন
+      if (!user?.id || !recipe?._id) return;
+
+      try {
+        // সরাসরি getFavourites ফাংশন কল করা হচ্ছে
+        const data = await getFavourites(user.id);
+
+        if (isMounted) {
+          // যদি ডেটা আসে এবং সেটি একটি অ্যারে হয়, তবেই চেক করো
+          const favoriteList = Array.isArray(data) ? data : [];
+          const hasFavorited = favoriteList.some(
+            (fav) => fav.recipeId === recipe._id,
+          );
+
+          // স্টেট আপডেট করো
+          setIsFavorited(hasFavorited);
+        }
+      } catch (error) {
+        console.error("Error fetching initial favorites:", error);
+      }
+    };
+
+    checkInitialFavorite();
+
+    // ক্লিনআপ ফাংশন
+    return () => {
+      isMounted = false;
+    };
+  }, [user?.id, recipe?._id]);
 
   if (!recipe || !recipe.recipeName) {
     return (
@@ -55,9 +123,102 @@ const RecipeDetailsView = ({ recipe }) => {
     instructions = [],
     authorName,
     authorEmail,
-    likeCount,
-    price = "$4.99", // ডেমো প্রাইস মামা
+    likesCount,
+    price = "$4.99",
   } = recipe;
+
+  // ❤️ Like & Unlike Handler Function
+  const handleLikeClick = async () => {
+    if (!user || !user.email) {
+      toast.error(
+        "Dear chef, please login first to appreciate this recipe! 🔒",
+      );
+      router.push("/login");
+      return;
+    }
+
+    const likedPayload = {
+      recipeId: recipe._id,
+      userId: user?.id,
+    };
+
+    const previousLikedState = isLiked;
+
+    try {
+      setIsLiked(!previousLikedState);
+
+      await updateLikeCount(recipe._id, likedPayload);
+
+      toast.success(
+        previousLikedState ? "Like removed! 💔" : "Recipe appreciated! ❤️",
+      );
+
+      window.location.reload();
+    } catch (error) {
+      console.error("Error updating like count:", error);
+      setIsLiked(previousLikedState);
+      toast.error("Failed to update appreciation. Please try again.");
+    }
+  };
+
+  // 🔖 Favorite / Bookmark Handler Function (একই আইটেম একবারই বুকমার্ক হবে)
+  const handleFavoriteClick = async () => {
+    // ১. লগইন চেক
+    if (!user?.id) {
+      toast.error("Please login first! 🔒");
+      router.push("/login");
+      return;
+    }
+
+    // ২. ডুপ্লিকেট চেক (UI Level)
+    if (isFavorited) {
+      toast.error("You have already bookmarked this recipe! 🔖");
+      return;
+    }
+
+    const previousFavoriteState = isFavorited;
+    const currentISOString = new Date().toISOString();
+
+    // 📦 পেলোড স্ট্রাকচার
+    const favoritePayload = {
+      recipeId: recipe._id,
+      recipeName: recipe.recipeName,
+      recipeImage: recipe.recipeImage || undefined,
+      category: recipe.category || "Main Course",
+      cuisineType: recipe.cuisineType || "International",
+      difficultyLevel: recipe.difficultyLevel || "Medium",
+      preparationTime: recipe.preparationTime || "45 mins",
+      ingredients: (recipe.ingredients || []).filter(Boolean),
+      instructions: (recipe.instructions || []).filter(Boolean),
+      authorId: user?.id,
+      authorName: user?.name || "Mahmudul Hasan Nirab",
+      authorEmail: user?.email || "mahmuduljasan@gmail.com",
+      likesCount: recipe.likesCount || 0,
+      isFeatured: recipe.isFeatured || false,
+      status: recipe.status || "pending",
+      createdAt: recipe.createdAt || currentISOString,
+      updatedAt: currentISOString,
+    };
+
+    try {
+      setIsFavorited(true); // অপটিমিস্টিক আপডেট
+
+      const data = await addFavouriteRecipe(favoritePayload);
+
+      if (data && data.success) {
+        toast.success("Added to favorites! ❤️");
+        // উইন্ডো রিলোড না করে যদি স্টেট চেঞ্জ করতে চাও তবে রিলোড লাইনটি মুছে দিতে পারো
+        window.location.reload();
+      } else {
+        // ব্যাকএন্ড থেকে আসা মেসেজটি এখানে দেখাবে
+        throw new Error(data?.message || "Failed to bookmark");
+      }
+    } catch (error) {
+      setIsFavorited(false); // এরর হলে আবার অফ করে দাও
+      console.error("Detailed Error:", error);
+      toast.error(error.message || "Failed to bookmark. Please try again.");
+    }
+  };
 
   // 🚨 Report Modal Submit Handler (UI only)
   const handleReportSubmit = (e) => {
@@ -128,9 +289,9 @@ const RecipeDetailsView = ({ recipe }) => {
 
         {/* Right Side: Interactive Action Buttons (Like, Fav, Report) */}
         <div className="flex flex-wrap items-center gap-3">
-          {/* ❤️ Like Button */}
+          {/* ❤️ Like/Unlike Button */}
           <button
-            onClick={() => setIsLiked(!isLiked)}
+            onClick={handleLikeClick}
             className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl border transition-all active:scale-95 text-sm font-bold ${
               isLiked
                 ? "bg-danger-500 text-white border-danger-500 shadow-lg shadow-danger-500/20"
@@ -138,20 +299,24 @@ const RecipeDetailsView = ({ recipe }) => {
             }`}
           >
             <Heart size={18} className={isLiked ? "fill-current" : ""} />
-            <span>{isLiked ? (likeCount || 0) + 1 : likeCount || 0} Likes</span>
+            <span>{likesCount}</span>
           </button>
 
           {/* 🔖 Favorite Button */}
+          {/* 🔖 Favorite Button */}
           <button
-            onClick={() => setIsFavorited(!isFavorited)}
+            onClick={handleFavoriteClick}
+            // বাটনটি অলরেডি ফেভারিট থাকলে আমরা সেটাকে 'active' লুক দিচ্ছি
             className={`p-2.5 rounded-2xl border transition-all active:scale-95 ${
               isFavorited
-                ? "bg-warning-500 text-white border-warning-500 shadow-lg shadow-warning-500/20"
+                ? "bg-warning-500 text-white border-warning-500 shadow-lg shadow-warning-500/20" // এটিই হলো তোমার অ্যাক্টিভ স্টাইল
                 : "bg-default-100/70 dark:bg-default-100/20 text-default-600 dark:text-default-400 border-divider/40 hover:bg-warning-500 hover:text-white"
             }`}
-            title="Add to Favorites"
           >
-            <Bookmark size={18} className={isFavorited ? "fill-current" : ""} />
+            <Bookmark
+              size={18}
+              className={isFavorited ? "fill-current" : ""} // অ্যাক্টিভ থাকলে আইকনটি পূর্ণ (fill) হয়ে যাবে
+            />
           </button>
 
           {/* 🚨 Report Button */}
@@ -193,7 +358,7 @@ const RecipeDetailsView = ({ recipe }) => {
 
         {/* Right Side Stack: Author Profile & Premium Purchase Card */}
         <div className="space-y-6">
-          {/* 💳 Purchase CTA Card (Stripe Integration Target) */}
+          {/* 💳 Purchase CTA Card */}
           <Card className="border-2 border-primary/30 shadow-xl rounded-[2rem] bg-gradient-to-br from-primary/10 via-content1 to-content1 p-6 md:p-8 text-center relative overflow-hidden">
             <div className="absolute top-0 right-0 w-24 h-24 bg-primary/10 rounded-full blur-xl -mr-6 -mt-6" />
 
@@ -218,16 +383,22 @@ const RecipeDetailsView = ({ recipe }) => {
             </div>
 
             {/* 🛒 Purchase Button */}
-            <Button
-              color="primary"
-              size="lg"
-              className="w-full font-black uppercase tracking-wider rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-2 h-12"
-              onClick={() =>
-                alert("Redirecting to Stripe Checkout workflow... 💳")
-              }
-            >
-              <CreditCard size={18} /> Buy This Recipe
-            </Button>
+            <form action="/api/checkout_sessions" method="POST">
+              <section>
+                <button type="submit" role="link">
+                  <Button
+                    color="primary"
+                    size="lg"
+                    className="w-full font-black uppercase tracking-wider rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-2 h-12"
+                    onClick={() =>
+                      alert("Redirecting to Stripe Checkout workflow... 💳")
+                    }
+                  >
+                    <CreditCard size={18} /> Buy This Recipe
+                  </Button>
+                </button>
+              </section>
+            </form>
           </Card>
 
           {/* Author Profile Card */}
@@ -310,7 +481,7 @@ const RecipeDetailsView = ({ recipe }) => {
         </div>
       </section>
 
-      {/* ⚠️ Report Recipe Modal Layer (Pure Portal/HTML implementation to maintain high z-index over blurry sheets) */}
+      {/* ⚠️ Report Recipe Modal Layer */}
       {isReportModalOpen && (
         <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4">
           <div
@@ -371,6 +542,5 @@ const RecipeDetailsView = ({ recipe }) => {
     </div>
   );
 };
-
 
 export default RecipeDetailsView;

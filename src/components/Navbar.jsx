@@ -159,7 +159,7 @@ export default function AppNavbar() {
             </div>
 
             {/* 🗺️ Nav Links (Desktop) */}
-            <nav className="hidden md:flex justify-center">
+            <nav className="hidden lg:flex justify-center">
               <ul className="flex items-center gap-1 bg-zinc-900/5 dark:bg-white/5 p-1 rounded-xl border border-zinc-200/20 dark:border-white/5">
                 {navLinks.map((link) => {
                   const isActive = pathname === link.href;
@@ -229,7 +229,7 @@ export default function AppNavbar() {
               {mounted && !isPending && (
                 <>
                   {user ? (
-                    <div className="hidden md:block">
+                    <div className="hidden lg:block">
                       <Popover
                         placement="bottom-end"
                         offset={10}
@@ -329,7 +329,7 @@ export default function AppNavbar() {
               {/* Mobile Menu Trigger */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="inline-flex items-center justify-center rounded-xl p-2 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900 md:hidden transition-colors border border-transparent hover:border-zinc-200/50 dark:hover:border-zinc-800/50 cursor-pointer"
+                className="inline-flex items-center justify-center rounded-xl p-2 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900 lg:hidden transition-colors border border-transparent hover:border-zinc-200/50 dark:hover:border-zinc-800/50 cursor-pointer"
                 aria-label="Toggle Menu"
               >
                 {isMenuOpen ? <FiX size={18} /> : <FiMenu size={18} />}
@@ -345,7 +345,7 @@ export default function AppNavbar() {
                 animate={{ height: "auto", opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.25, ease: [0.25, 1, 0.5, 1] }}
-                className="absolute top-[calc(100%+8px)] left-0 w-full md:hidden bg-white/95 dark:bg-zinc-950/95 backdrop-blur-2xl border border-zinc-200/50 dark:border-zinc-800/50 rounded-2xl shadow-2xl z-50 overflow-hidden"
+                className="absolute top-[calc(100%+8px)] left-0 w-full lg:hidden bg-white/95 dark:bg-zinc-950/95 backdrop-blur-2xl border border-zinc-200/50 dark:border-zinc-800/50 rounded-2xl shadow-2xl z-50 overflow-hidden"
               >
                 <ul className="px-6 py-5 space-y-3">
                   {user && (
