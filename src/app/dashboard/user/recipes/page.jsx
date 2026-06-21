@@ -11,6 +11,8 @@ const MyRecipes = async () => {
 
   const myRecipes = (await getMyRecipes(user.id)) || []; // 💡 নিশ্চিত হও এই ফাংশনটা তোমার প্রজেক্টে আছে
 
+  console.log(myRecipes);
+
   return (
     <div className="space-y-8 antialiased">
       <div className="flex flex-wrap items-center justify-between">
@@ -40,7 +42,7 @@ const MyRecipes = async () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {myRecipes.map((recipe) => (
+          {myRecipes?.map((recipe) => (
             <MyRecipeCard key={recipe._id} recipe={recipe} />
           ))}
         </div>

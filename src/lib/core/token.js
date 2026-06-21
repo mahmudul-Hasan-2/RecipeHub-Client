@@ -2,8 +2,8 @@ import { headers } from "next/headers";
 import { auth } from "../auth";
 
 export const getToken = async () => {
-  const token = await auth.api.getToken({
+  const session = await auth.api.getSession({
     headers: await headers(),
   });
-  return token;
+  return session?.session?.token || null;
 };
