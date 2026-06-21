@@ -1,8 +1,6 @@
+import PurchasedRecipeCard from "@/components/dashboard/user/PurchasedRecipeCard";
 import { getTransactions } from "@/lib/api/transaction";
 import { getSession } from "@/lib/core/session";
-import PurchasedRecipeCard from "@/components/dashboard/user/PurchasedRecipeCard";
-import React from "react";
-import { redirect } from "next/navigation";
 
 const PurchasedRecipes = async () => {
   const session = await getSession();
@@ -13,6 +11,9 @@ const PurchasedRecipes = async () => {
   }
 
   const transactions = await getTransactions(user?.id);
+
+  // ১. ম্যাপ করার আগেই ক্লিন ডাটা ফিল্টার করে নেওয়া (বেস্ট প্র্যাকটিস)
+  const validRecipes = transactions?.filter((t) => t.recipeName);
 
   return (
     <div className="max-w-7xl mx-auto p-6 md:p-10">
@@ -25,10 +26,9 @@ const PurchasedRecipes = async () => {
         </p>
       </div>
 
-      {transactions && transactions.length > 0 ? (
-        // সার্ভার সাইড ম্যাপ এখানে গ্রিড লেআউটের ভেতরে
+      {validRecipes && validRecipes.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {transactions.map((recipe) => (
+          {validRecipes.map((recipe) => (
             <PurchasedRecipeCard key={recipe._id} recipe={recipe} />
           ))}
         </div>
