@@ -1,8 +1,10 @@
 import { redirect } from "next/navigation";
 import { stripe } from "../../lib/stripe";
 import Link from "next/link";
-import { updateIsPremium } from "@/lib/actions/recipes";
+import { updateIsPremium } from "@/lib/actions/users";
 import { getSession } from "@/lib/core/session";
+import { createTransaction } from "@/lib/actions/transaction";
+import { getRecipeById } from "@/lib/api/recipes";
 
 export default async function Success({ searchParams }) {
   const { session_id } = await searchParams;
@@ -21,9 +23,35 @@ export default async function Success({ searchParams }) {
   }
 
   if (status === "complete") {
-    const session = await getSession();
-    const user = session.user;
+    const recipe = await getRecipeById(metadata?.recipeId);
+    const data = await getSession();
+    const user = data?.user;
+    console.log(metadata);
+    const transactionPayload = {
+      userName: user?.name,
+      userEmail: user?.email,
+      userImage: user?.image,
+      userId: user?.id,
+      recipeName: recipe.recipeName,
+      recipeImage: recipe.recipeImage,
+      category: recipe.category,
+      cuisineType: recipe.cuisineType,
+      difficultyLevel: recipe.difficultyLevel,
+      preparationTime: recipe.preparationTime,
+      ingredients: recipe.ingredients,
+      instructions: recipe.instructions,
+      amount: session.amount_total,
+      authorId: recipe.authorId,
+      authorName: recipe.authorName,
+      authorEmail: recipe.authorEmail,
+      authorImage: recipe.authorImage,
+      date: new Date(),
+      paymentStatus: status,
+      transactonId: session_id,
+    };
     await updateIsPremium(user?.id);
+    const result = await createTransaction(transactionPayload);
+    console.log(result);
     return (
       <div className="flex justify-center items-center min-h-screen bg-zinc-50 dark:bg-zinc-950 p-6">
         <div className="max-w-md w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-8 shadow-sm text-center">

@@ -383,7 +383,7 @@ const RecipeDetailsView = ({ recipe }) => {
             </div>
 
             {/* 🛒 Purchase Button */}
-            <form action="/api/checkout_sessions" method="POST">
+            <form action={`/api/checkout_sessions?recipeId=${recipe._id}`} method="POST">
               <section>
                 <input type="hidden" value="recipe" name="pricing-name" />
                 <button

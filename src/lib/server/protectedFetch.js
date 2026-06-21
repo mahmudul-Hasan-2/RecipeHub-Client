@@ -15,5 +15,4 @@ export async function protectedFetch(path) {
   });
   console.log(response);
   return response.json();
-  
 }

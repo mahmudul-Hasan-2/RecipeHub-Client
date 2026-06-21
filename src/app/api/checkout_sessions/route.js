@@ -9,6 +9,10 @@ export async function POST(request) {
     const headersList = await headers();
     const origin = headersList.get("origin");
 
+    const recipeId = request.nextUrl.searchParams.get("recipeId");
+
+    
+
     const formData = await request.formData();
 
     const pricingName = formData.get("pricing-name");
@@ -21,7 +25,7 @@ export async function POST(request) {
     // Create Checkout Sessions from body params.
     const session = await stripe.checkout.sessions.create({
       customer_email: user?.email,
-      metadata: { pricingId },
+      metadata: { pricingId, recipeId },
       line_items: [
         {
           // Provide the exact Price ID (for example, price_1234) of the product you want to sell
