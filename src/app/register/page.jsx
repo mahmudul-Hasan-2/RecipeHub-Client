@@ -28,6 +28,17 @@ function RegisterForm() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+
+    // Password validation logic
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+
+    if (!passwordRegex.test(password)) {
+      toast.error(
+        "Password must be at least 6 characters long and include both uppercase and lowercase letters.",
+      );
+      return; // ভ্যালিডেশন ফেল করলে ফাংশন এখানেই থেমে যাবে
+    }
+
     setIsLoading(true);
 
     const { error } = await authClient.signUp.email({
@@ -36,7 +47,8 @@ function RegisterForm() {
       name,
       image: imageUrl || undefined,
       role: "user",
-      isPremimum: false,
+      isPremium: false,
+      isBlocked: false,
       callbackURL: callbackUrl,
     });
 

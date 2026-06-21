@@ -15,3 +15,9 @@ export const deleteRecipe = async (id) => {
 export const updateLikeCount = async (recipeId, likedPayload) => {
   return serverMutation(`/api/like/recipe/${recipeId}`, likedPayload, "PATCH");
 };
+
+const isPremium = { isPremium: true };
+
+export const updateIsPremium = async (userId) => {
+  return serverMutation(`/api/users/${userId}`, isPremium, "PATCH");
+};

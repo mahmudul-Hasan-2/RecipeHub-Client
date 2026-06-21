@@ -19,7 +19,6 @@ const StatsGrid = ({ recipes = [], favourites = [], likes = [] }) => {
       id: 3,
       label: "Likes Received",
       value: likes.toString(), // এখানে লাইকগুলোর সংখ্যা দেখাচ্ছে
-      change: "+45 today",
       icon: "❤️",
     },
   ];
@@ -38,9 +37,6 @@ const StatsGrid = ({ recipes = [], favourites = [], likes = [] }) => {
             <h4 className="text-3xl font-black text-zinc-950 dark:text-zinc-50 tracking-tight">
               {stat.value}
             </h4>
-            <span className="text-xs font-semibold text-emerald-500 dark:text-emerald-400 block">
-              {stat.change}
-            </span>
           </div>
           <div className="w-12 h-12 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 flex items-center justify-center text-xl">
             {stat.icon}

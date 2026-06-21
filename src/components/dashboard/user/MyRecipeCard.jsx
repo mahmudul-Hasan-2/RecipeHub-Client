@@ -21,7 +21,7 @@ const MyRecipeCard = ({ recipe }) => {
 
   const statusColors = {
     approved: "bg-emerald-500/10 text-emerald-500 dark:bg-emerald-500/20",
-    pending: "bg-amber-500/10 text-amber-500 dark:bg-amber-500/20",
+    pending: "bg-amber-500/50 text-white dark:bg-amber-500/50",
     rejected: "bg-rose-500/10 text-rose-500 dark:bg-rose-500/20",
   };
 
@@ -41,7 +41,7 @@ const MyRecipeCard = ({ recipe }) => {
 
           <div
             className={`absolute top-3 left-3 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow-sm z-10 ${
-              statusColors[status] || "bg-zinc-500/10 text-zinc-500"
+              statusColors[status] || "bg-zinc-500/40 text-zinc-500"
             }`}
           >
             {status || "Pending"}

@@ -62,8 +62,14 @@ const Sidebar = async () => {
               <h4 className="text-sm font-black text-zinc-800 dark:text-zinc-100 line-clamp-1 capitalize">
                 {user?.name || "Culinary Chef"}
               </h4>
-              <span className="text-[10px] font-extrabold uppercase tracking-wider text-orange-500 bg-orange-500/10 dark:bg-orange-500/20 px-2 py-0.5 rounded-md">
-                {user?.role || "User"}
+              <span
+                className={`text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md ${
+                  user?.isPremium
+                    ? "bg-amber-500/10 text-amber-600 dark:bg-amber-500/20 dark:text-amber-400 border border-amber-500/20"
+                    : "bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400"
+                }`}
+              >
+                {user?.isPremium ? "Premium Member" : "User"}
               </span>
             </div>
           </div>

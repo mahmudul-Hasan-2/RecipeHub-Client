@@ -1,19 +1,31 @@
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 
-import { stripe } from "../../../lib/stripe";
+import { allPricingId, stripe } from "../../../lib/stripe";
+import { getSession } from "@/lib/core/session";
 
-export async function POST() {
+export async function POST(request) {
   try {
     const headersList = await headers();
     const origin = headersList.get("origin");
 
+    const formData = await request.formData();
+
+    const pricingName = formData.get("pricing-name");
+    const pricingId = allPricingId[pricingName];
+
+    const data = await getSession();
+
+    const user = data?.user;
+
     // Create Checkout Sessions from body params.
     const session = await stripe.checkout.sessions.create({
+      customer_email: user?.email,
+      metadata: { pricingId },
       line_items: [
         {
           // Provide the exact Price ID (for example, price_1234) of the product you want to sell
-          price: "price_1TkU9fBeE6Oekp8NDvNYT30B",
+          price: pricingId,
           quantity: 1,
         },
       ],

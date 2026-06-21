@@ -1,3 +1,4 @@
+import { protectedFetch } from "../server/protectedFetch";
 import { serverFetch } from "../server/serverFetch";
 
 export async function getFeaturedRecipes() {
@@ -25,5 +26,5 @@ export async function mostLikedRecipes() {
 }
 
 export const getMyRecipes = async (authorId) => {
-  return serverFetch(`/api/recipes/my/${authorId}`);
+  return protectedFetch(`/api/recipes/my/${authorId}`);
 };

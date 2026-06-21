@@ -385,17 +385,13 @@ const RecipeDetailsView = ({ recipe }) => {
             {/* 🛒 Purchase Button */}
             <form action="/api/checkout_sessions" method="POST">
               <section>
-                <button type="submit" role="link">
-                  <Button
-                    color="primary"
-                    size="lg"
-                    className="w-full font-black uppercase tracking-wider rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-2 h-12"
-                    onClick={() =>
-                      alert("Redirecting to Stripe Checkout workflow... 💳")
-                    }
-                  >
-                    <CreditCard size={18} /> Buy This Recipe
-                  </Button>
+                <input type="hidden" value="recipe" name="pricing-name" />
+                <button
+                  type="submit"
+                  role="link"
+                  className="w-full font-black uppercase tracking-wider cursor-pointer bg-blue-500 rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-2 h-12"
+                >
+                  <CreditCard size={18} /> Buy This Recipe
                 </button>
               </section>
             </form>
