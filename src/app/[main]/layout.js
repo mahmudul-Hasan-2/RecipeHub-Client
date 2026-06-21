@@ -1,8 +1,8 @@
 import { ThemeProvider } from "@/components/ThemeProvider";
 import AppNavbar from "@/components/Navbar";
 import "./globals.css";
-import AppFooter from "@/components/recipes/Footer";
 import { Toaster } from "react-hot-toast";
+import AppFooter from "@/components/Footer";
 
 export const metadata = {
   title: "RecipeHub",
