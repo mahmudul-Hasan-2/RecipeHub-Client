@@ -19,3 +19,11 @@ export const updateLikeCount = async (recipeId, likedPayload) => {
     "PATCH",
   );
 };
+
+export const updateIsFeatured = async (recipeId, isFeatured) => {
+  return protectedMutation(
+    `/api/recipe/isFeatured/${recipeId}`,
+    { isFeatured },
+    "PATCH",
+  );
+};

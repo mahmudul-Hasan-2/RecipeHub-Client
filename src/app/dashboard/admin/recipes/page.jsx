@@ -1,8 +1,13 @@
-import React from "react";
+import { getAllRecipes } from "@/lib/api/recipes";
+import RecipeTable from "@/components/dashboard/admin/RecipeTable"; // তোমার পাথ অনুযায়ী চেক করো
 
-const RecipesPage = () => {
-  const recipes = ();
-  return <div></div>;
-};
+export default async function RecipesPage() {
+  const recipes = await getAllRecipes();
 
-export default RecipesPage;
+  return (
+    <div className="p-6">
+      <h1 className="text-2xl font-black mb-6">Manage Recipes</h1>
+      <RecipeTable recipes={recipes} />
+    </div>
+  );
+}

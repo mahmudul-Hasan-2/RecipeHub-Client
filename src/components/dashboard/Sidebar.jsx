@@ -20,8 +20,8 @@ const Sidebar = ({ userRole }) => {
     userRole === "admin"
       ? [
           { name: "Overview", href: "/dashboard/admin", icon: FiHome },
-          { name: "Users", href: "/dashboard/admin/users", icon: Users },
-          { name: "Recipes", href: "/dashboard/admin/recipes", icon: Soup },
+          { name: "Manage Users", href: "/dashboard/admin/users", icon: Users },
+          { name: "Manage Recipes", href: "/dashboard/admin/recipes", icon: Soup },
           { name: "Reports", href: "/dashboard/admin/reports", icon: ChartBar },
         ]
       : [

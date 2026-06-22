@@ -32,3 +32,7 @@ export const getMyRecipes = async (authorId) => {
 export const getTotalRecipes = async () => {
   return protectedFetch("/api/recipes/counts");
 };
+
+export const getAllRecipes = async () => {
+  return protectedFetch("/api/allRecipes");
+};

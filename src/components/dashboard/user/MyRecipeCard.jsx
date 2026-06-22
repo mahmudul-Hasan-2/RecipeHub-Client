@@ -3,8 +3,8 @@
 import React from "react";
 import { FiClock, FiEdit2, FiTrash2, FiEye } from "react-icons/fi";
 import Link from "next/link";
-import EditRecipeModal from "./EditRecipeModal";
-import DeleteRecipeModal from "./DeleteRecipeModal";
+import EditRecipeModal from "../../recipes/EditRecipeModal";
+import DeleteRecipeModal from "../../recipes/DeleteRecipeModal";
 
 const MyRecipeCard = ({ recipe }) => {
   if (!recipe) return null;
