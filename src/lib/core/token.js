@@ -6,5 +6,5 @@ export const getToken = async () => {
   const jwt = await auth.api.getToken({
     headers: requestHeaders,
   });
-  return jwt?.token || null;
+  return jwt?.token;
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, Suspense } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTheme } from "next-themes";
@@ -12,10 +12,18 @@ import { Button, Input } from "@heroui/react";
 import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
 
+// এই হুকটি দিয়ে থিম মাউন্টিং হ্যান্ডেল করছি যাতে কালার ফ্ল্যাশ না করে
+function useMounted() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  return mounted;
+}
+
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { resolvedTheme } = useTheme();
+  const isMounted = useMounted();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,6 +31,9 @@ function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
 
   const callbackUrl = searchParams.get("callbackUrl") || "/";
+
+  // থিম মাউন্ট হওয়ার পর সঠিক ভ্যালু সেট হবে
+  const isDark = isMounted ? resolvedTheme === "dark" : false;
 
   const handleCredentialLogin = async (e) => {
     e.preventDefault();
@@ -46,9 +57,7 @@ function LoginForm() {
   };
 
   const handleGoogleLogin = async () => {
-    const data = await authClient.signIn.social({
-      provider: "google",
-    });
+    const data = await authClient.signIn.social({ provider: "google" });
 
     if (data?.data) {
       toast.success("Welcome back, Login successful.");
@@ -61,8 +70,7 @@ function LoginForm() {
     }
   };
 
-  const isDark = resolvedTheme === "dark";
-
+  // থিম লোড না হওয়া পর্যন্ত রেন্ডারিং আটকানোর দরকার নেই, শুধু ক্লাসের ওপর কন্ট্রোল রাখলেই হবে
   return (
     <div className="relative w-full max-w-[440px] z-10 px-4">
       <div className="mb-5 flex justify-start">
@@ -82,12 +90,11 @@ function LoginForm() {
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className={`p-8 rounded-[32px] backdrop-blur-xl border transition-all duration-500
-          ${
-            isDark
-              ? "bg-zinc-950/40 border-zinc-800/60 shadow-[0_24px_60px_-15px_rgba(0,0,0,0.7)]"
-              : "bg-white/40 border-white/40 shadow-[0_24px_60px_-15px_rgba(249,115,22,0.08)]"
-          }`}
+        className={`p-8 rounded-[32px] backdrop-blur-xl border transition-all duration-500 ${
+          isDark
+            ? "bg-zinc-950/40 border-zinc-800/60 shadow-[0_24px_60px_-15px_rgba(0,0,0,0.7)]"
+            : "bg-white/40 border-white/40 shadow-[0_24px_60px_-15px_rgba(249,115,22,0.08)]"
+        }`}
       >
         <div className="flex flex-col items-center text-center gap-2 mb-8">
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-orange-500 to-amber-500 text-white shadow-lg shadow-orange-500/20">
@@ -171,8 +178,7 @@ function LoginForm() {
           variant="bordered"
           className="w-full font-bold text-sm h-12 rounded-xl border-zinc-200 dark:border-zinc-700 bg-white/20 dark:bg-zinc-900/20 hover:bg-white/40 dark:hover:bg-zinc-800/40 transition-colors flex items-center justify-center gap-2 cursor-pointer"
         >
-          <FcGoogle size={18} />
-          Sign in with Google
+          <FcGoogle size={18} /> Sign in with Google
         </Button>
 
         <p className="text-center text-xs font-semibold text-zinc-500 dark:text-zinc-400 mt-6">
@@ -191,7 +197,8 @@ function LoginForm() {
 
 export default function LoginPage() {
   const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme === "dark";
+  const isMounted = useMounted();
+  const isDark = isMounted ? resolvedTheme === "dark" : false;
 
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden py-14 bg-zinc-50 dark:bg-zinc-950 transition-colors duration-500">
@@ -202,11 +209,9 @@ export default function LoginPage() {
             scale: [1, 1.05, 1],
           }}
           transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-          className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[550px] w-[550px] rounded-full blur-[100px] sm:blur-[130px] transition-all duration-500
-            ${isDark ? "bg-orange-500/10" : "bg-gradient-to-r from-orange-500/15 via-amber-400/15 to-transparent"}`}
+          className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[550px] w-[550px] rounded-full blur-[100px] sm:blur-[130px] transition-all duration-500 ${isDark ? "bg-orange-500/10" : "bg-gradient-to-r from-orange-500/15 via-amber-400/15 to-transparent"}`}
         />
       </div>
-
       <Suspense
         fallback={
           <div className="text-sm font-bold text-orange-500 animate-pulse">

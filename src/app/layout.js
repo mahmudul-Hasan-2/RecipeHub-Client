@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import AppNavbar from "@/components/Navbar"; // তোর Navbar
 import AppFooter from "@/components/Footer"; // তোর Footer
 import "@/app/globals.css";
+import { Toaster } from "react-hot-toast";
+import { useSession } from "@/lib/auth-client";
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
@@ -19,11 +21,12 @@ export default function RootLayout({ children }) {
           {/* যদি ড্যাশবোর্ডে থাকে, Navbar দেখাবে না */}
           {!isDashboard ? <AppNavbar></AppNavbar> : null}
 
-          <main className="mt-10">{children}</main>
+          <main className="mt-20">{children}</main>
 
           {/* যদি ড্যাশবোর্ডে থাকে, Footer দেখাবে না */}
           {!isDashboard ? <AppFooter></AppFooter> : null}
         </ThemeProvider>
+        <Toaster toastOptions={{ style: { zIndex: 999999 } }}></Toaster>
       </body>
     </html>
   );

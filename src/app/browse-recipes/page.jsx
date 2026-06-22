@@ -3,11 +3,17 @@ import React from "react";
 import RecipeCard from "@/components/recipes/RecipeCard";
 import Pagination from "@/components/recipes/Pagination";
 import FilterPanel from "@/components/recipes/FilterPanel";
+import { getSession } from "@/lib/core/session";
+import { redirect } from "next/navigation";
 
 const BrowseRecipes = async ({ searchParams }) => {
   const resolvedParams = await searchParams;
   const currentPage = Number(resolvedParams?.page) || 1;
   const perPage = Number(resolvedParams?.perPage) || 12;
+
+  const session = await getSession();
+
+  const user = session?.user;
 
   const search = resolvedParams?.search || "";
   const category = resolvedParams?.category || "";

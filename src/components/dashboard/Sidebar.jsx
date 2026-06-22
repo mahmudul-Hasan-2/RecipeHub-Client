@@ -108,7 +108,7 @@ const Sidebar = ({ userRole }) => {
               className={`flex flex-col items-center gap-1.5 p-2 rounded-xl transition-all ${isActive ? "text-orange-500" : "text-zinc-400"}`}
             >
               <item.icon size={16} />
-              <span className="text-[10px] font-black">{item.short}</span>
+              <span className="text-[10px] font-black">{item.short || item.name}</span>
             </Link>
           );
         })}

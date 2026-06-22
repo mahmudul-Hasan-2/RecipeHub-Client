@@ -1,3 +1,4 @@
+import { protectedFetch } from "../server/protectedFetch";
 import { serverFetch } from "../server/serverFetch";
 
 export const getLikes = async () => {
@@ -5,5 +6,5 @@ export const getLikes = async () => {
 };
 
 export const getMyLikes = async (userId) => {
-  return serverFetch(`/api/my-recipes-likes/${userId}`);
+  return protectedFetch(`/api/my-recipes-likes/${userId}`);
 };

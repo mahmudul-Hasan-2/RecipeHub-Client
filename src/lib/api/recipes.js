@@ -6,7 +6,7 @@ export async function getFeaturedRecipes() {
 }
 
 export async function getRecipeById(recipeId) {
-  return serverFetch(`/api/recipes/${recipeId}`);
+  return protectedFetch(`/api/recipes/${recipeId}`);
 }
 
 export async function getRecipes(
@@ -27,4 +27,8 @@ export async function mostLikedRecipes() {
 
 export const getMyRecipes = async (authorId) => {
   return protectedFetch(`/api/recipes/my/${authorId}`);
+};
+
+export const getTotalRecipes = async () => {
+  return protectedFetch("/api/recipes/counts");
 };

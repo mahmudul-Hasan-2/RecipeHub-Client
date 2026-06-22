@@ -1,21 +1,28 @@
 "use client";
 
-import React, { useState, Suspense } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
 import { FiEye, FiEyeOff, FiArrowLeft } from "react-icons/fi";
-import { FcGoogle } from "react-icons/fc";
 import { FaEgg } from "react-icons/fa";
 import { Button, Input } from "@heroui/react";
 import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
 
+// এইটুকুই এড করো, এটা থিম মাউন্ট হওয়া নিশ্চিত করে
+function useMounted() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  return mounted;
+}
+
 function RegisterForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { resolvedTheme } = useTheme();
+  const isMounted = useMounted(); // এটা দিয়ে চেক করবো
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -28,19 +35,14 @@ function RegisterForm() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-
-    // Password validation logic
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
-
     if (!passwordRegex.test(password)) {
       toast.error(
         "Password must be at least 6 characters long and include both uppercase and lowercase letters.",
       );
-      return; // ভ্যালিডেশন ফেল করলে ফাংশন এখানেই থেমে যাবে
+      return;
     }
-
     setIsLoading(true);
-
     const { error } = await authClient.signUp.email({
       email,
       password,
@@ -51,9 +53,7 @@ function RegisterForm() {
       isBlocked: false,
       callbackURL: callbackUrl,
     });
-
     setIsLoading(false);
-
     if (error) {
       toast.error(error.message || "Registration failed, please try again.");
     } else {
@@ -63,24 +63,12 @@ function RegisterForm() {
     }
   };
 
-  const handleGoogleLogin = async () => {
-    toast.loading("Connecting with Google...");
-
-    const { error } = await authClient.signIn.social({
-      provider: "google",
-      callbackURL: callbackUrl,
-    });
-
-    toast.dismiss();
-    if (error) {
-      toast.error(error.message || "Google authentication failed.");
-    }
-  };
-
-  const isDark = resolvedTheme === "dark";
+  // থিম মাউন্ট না হওয়া পর্যন্ত সার্ভার সাইড রেন্ডার থেকে বাঁচাবে
+  const isDark = isMounted ? resolvedTheme === "dark" : false;
 
   return (
     <div className="relative w-full max-w-[440px] z-10 px-4">
+      {/* বাকি সব তোমার কোড */}
       <div className="mb-5 flex justify-start">
         <Link
           href="/"
@@ -198,23 +186,6 @@ function RegisterForm() {
           </Button>
         </form>
 
-        <div className="relative flex py-6 items-center">
-          <div className="flex-grow border-t border-zinc-200 dark:border-zinc-800/40"></div>
-          <span className="flex-shrink mx-4 text-zinc-400 dark:text-zinc-500 text-[10px] font-bold uppercase tracking-wider">
-            Or continue with
-          </span>
-          <div className="flex-grow border-t border-zinc-200 dark:border-zinc-800/40"></div>
-        </div>
-
-        <Button
-          onClick={handleGoogleLogin}
-          variant="bordered"
-          className="w-full font-bold text-sm h-12 rounded-xl border-zinc-200 dark:border-zinc-700 bg-white/20 dark:bg-zinc-900/20 hover:bg-white/40 dark:hover:bg-zinc-800/40 transition-colors flex items-center justify-center gap-2 cursor-pointer"
-        >
-          <FcGoogle size={18} />
-          Sign in with Google
-        </Button>
-
         <p className="text-center text-xs font-semibold text-zinc-500 dark:text-zinc-400 mt-6">
           Already have an account?{" "}
           <Link
@@ -231,7 +202,8 @@ function RegisterForm() {
 
 export default function RegisterPage() {
   const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme === "dark";
+  const isMounted = useMounted();
+  const isDark = isMounted ? resolvedTheme === "dark" : false;
 
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden py-14 bg-zinc-50 dark:bg-zinc-950 transition-colors duration-500">

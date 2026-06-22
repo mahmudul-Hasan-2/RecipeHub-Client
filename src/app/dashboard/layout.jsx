@@ -1,12 +1,12 @@
 import Sidebar from "@/components/dashboard/Sidebar";
 import { getSession } from "@/lib/core/session";
-import { redirect } from "next/dist/server/api-utils";
+import { redirect } from "next/navigation";
 export default async function DashboardLayout({ children }) {
   const session = await getSession();
-  if (!session?.user) redirect("/login");
+  if (!session?.user) redirect("/login")
 
   return (
-    <div className="flex min-h-screen bg-zinc-50 dark:bg-black space-t-10">
+    <div className="flex min-h-screen pt-0 bg-zinc-50 dark:bg-black space-t-10">
       <Sidebar userRole={session?.user?.role} />
 
       {/* মেইন কন্টেন্ট এরিয়া */}

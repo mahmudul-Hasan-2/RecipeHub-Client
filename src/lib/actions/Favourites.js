@@ -1,9 +1,9 @@
-import { serverMutation } from "../server/serverMutation";
+import { protectedMutation } from "../server/protectedMutation";
 
 export const addFavouriteRecipe = async (recipe) => {
-  return serverMutation(`/api/add-favourite`, recipe, "POST");
+  return protectedMutation(`/api/add-favourite`, recipe, "POST");
 };
 
 export const deleteFavouriteRecipe = async (recipeId) => {
-  return serverMutation(`/api/favourite/${recipeId}`, {}, "DELETE");
+  return protectedMutation(`/api/favourite/${recipeId}`, {}, "DELETE");
 };
