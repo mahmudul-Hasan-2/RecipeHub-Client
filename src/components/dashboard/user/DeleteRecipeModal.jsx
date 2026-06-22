@@ -25,7 +25,7 @@ const DeleteRecipeModal = ({ recipe }) => {
     try {
       const response = await deleteRecipe(recipe._id);
 
-      if (response?.deletedCount || response?.ok || response?.success) {
+      if (response?.deletedCount > 0 || response?.ok || response?.success) {
         toast.success("Recipe deleted successfully!");
         setIsOpen(false);
         router.refresh(); // লিস্ট আপডেট করার জন্য
@@ -74,7 +74,7 @@ const DeleteRecipeModal = ({ recipe }) => {
         {/* Description */}
         <p className="text-zinc-500 dark:text-zinc-400 mt-3 leading-relaxed text-xs sm:text-sm">
           Are you sure you want to delete{" "}
-          <span className="font-bold text-zinc-800 dark:text-zinc-200">
+          <span className="font-bold">
             "{recipe.recipeName || "this recipe"}"
           </span>
           ? This action cannot be undone and the dataset will be permanently

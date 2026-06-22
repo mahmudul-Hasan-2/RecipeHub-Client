@@ -9,7 +9,7 @@ const ProfilePage = async () => {
   if (!user) redirect("/login");
 
   return (
-    <div className="max-w-xl mx-auto p-6 md:p-10">
+    <div className="w-full sm:max-w-xl mx-auto p-6 md:p-10">
       <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-8 shadow-sm">
         {/* Profile Header */}
         <div className="text-center mb-8">

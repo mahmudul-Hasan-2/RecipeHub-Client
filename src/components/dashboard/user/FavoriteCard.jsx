@@ -2,6 +2,7 @@ import React from "react";
 import { Clock3, Tag, ArrowRight } from "lucide-react";
 import { Card, Button, Chip } from "@heroui/react";
 import Link from "next/link";
+import DeleteFavoriteRecipeModal from "./DeleteFavoriteRecipeModal";
 
 const FavoriteCard = ({ recipe }) => {
   const {
@@ -62,7 +63,7 @@ const FavoriteCard = ({ recipe }) => {
       </div>
 
       {/* 🔗 Action Button */}
-      <div className="pt-5">
+      <div className="pt-5 flex items-center justify-between">
         <Link href={`/recipe/${recipeId}`} passHref>
           <Button
             size="sm"
@@ -70,9 +71,13 @@ const FavoriteCard = ({ recipe }) => {
             variant="flat"
             className="w-full font-bold rounded-xl flex items-center justify-center gap-2 group-hover:bg-primary group-hover:text-white transition-all"
           >
-            View Recipe <ArrowRight size={14} />
+            View Details <ArrowRight size={14} />
           </Button>
         </Link>
+        <DeleteFavoriteRecipeModal
+          favoriteId={recipe._id} // অথবা তোমার ডাটাবেজের প্রিয় আইডির কী
+          recipeName={recipeName}
+        />
       </div>
     </Card>
   );

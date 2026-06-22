@@ -295,7 +295,7 @@ const RecipeDetailsView = ({ recipe }) => {
             className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl border transition-all active:scale-95 text-sm font-bold ${
               isLiked
                 ? "bg-danger-500 text-white border-danger-500 shadow-lg shadow-danger-500/20"
-                : "bg-danger-50/60 dark:bg-danger-950/20 text-danger-600 dark:text-danger-400 border-danger-100/30 dark:border-danger-900/20 hover:bg-danger-500 hover:text-white"
+                : "bg-danger-50/60 dark:bg-danger-950/20 text-danger-600 dark:text-danger-400 border-danger-100/30 dark:border-danger-900/20 hover:bg-danger-500"
             }`}
           >
             <Heart size={18} className={isLiked ? "fill-current" : ""} />
@@ -310,7 +310,7 @@ const RecipeDetailsView = ({ recipe }) => {
             className={`p-2.5 rounded-2xl border transition-all active:scale-95 ${
               isFavorited
                 ? "bg-warning-500 text-white border-warning-500 shadow-lg shadow-warning-500/20" // এটিই হলো তোমার অ্যাক্টিভ স্টাইল
-                : "bg-default-100/70 dark:bg-default-100/20 text-default-600 dark:text-default-400 border-divider/40 hover:bg-warning-500 hover:text-white"
+                : "bg-default-100/70 dark:bg-default-100/20 text-default-600 dark:text-default-400 border-divider/40 hover:bg-warning-500 "
             }`}
           >
             <Bookmark
@@ -383,7 +383,10 @@ const RecipeDetailsView = ({ recipe }) => {
             </div>
 
             {/* 🛒 Purchase Button */}
-            <form action={`/api/checkout_sessions?recipeId=${recipe._id}`} method="POST">
+            <form
+              action={`/api/checkout_sessions?recipeId=${recipe._id}`}
+              method="POST"
+            >
               <section>
                 <input type="hidden" value="recipe" name="pricing-name" />
                 <button

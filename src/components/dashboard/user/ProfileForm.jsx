@@ -1,13 +1,35 @@
 "use client";
 import React, { useState } from "react";
+import { authClient } from "@/lib/auth-client"; // তোমার authClient ইমপোর্ট করো
+import toast from "react-hot-toast"; // নোটিফিকেশনের জন্য
 
 const ProfileForm = ({ user }) => {
   const [name, setName] = useState(user?.name || "");
   const [image, setImage] = useState(user?.image || "");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    console.log("Updating profile:", { name, image });
+    setIsLoading(true);
+
+    try {
+      // Better Auth এর updateUser ফাংশন
+      const { data, error } = await authClient.updateUser({
+        name: name,
+        image: image,
+      });
+
+      if (error) {
+        toast.error(error.message || "Something went wrong!");
+      } else {
+        toast.success("Profile updated successfully!");
+        window.location.reload();
+      }
+    } catch (err) {
+      toast.error("Failed to update profile.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -42,9 +64,10 @@ const ProfileForm = ({ user }) => {
 
       <button
         type="submit"
-        className="w-full py-4 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-2xl font-bold hover:opacity-90 transition-all shadow-lg shadow-zinc-200 dark:shadow-none"
+        disabled={isLoading}
+        className="w-full py-4 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-2xl font-bold hover:opacity-90 transition-all shadow-lg shadow-zinc-200 dark:shadow-none disabled:opacity-50"
       >
-        Save Changes
+        {isLoading ? "Saving..." : "Save Changes"}
       </button>
     </form>
   );

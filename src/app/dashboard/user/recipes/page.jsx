@@ -27,7 +27,7 @@ const MyRecipes = async () => {
 
         <Link
           href="/dashboard/user/recipes/add"
-          className="inline-flex items-center gap-2 px-4 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-bold shadow-md shadow-orange-500/10 hover:bg-orange-600 transition-all active:scale-95"
+          className="inline-flex mt-5 sm:mt-0 items-center gap-2 px-4 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-bold shadow-md shadow-orange-500/10 hover:bg-orange-600 transition-all active:scale-95"
         >
           <FiPlus size={16} />
           Add New
