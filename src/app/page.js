@@ -6,6 +6,12 @@ import TopChefsSection from "@/components/homepage/TopChefsSection";
 import MostLiked from "@/components/homepage/MostLiked";
 import Link from "next/link";
 
+export const metadata = {
+  title: "RecipeHub - Home",
+  description:
+    "RecipeHub is a platform that connects chefs with their customers. Discover new recipes, share your favorites, and connect with other like-minded individuals.",
+};
+
 export default async function Home() {
   const featuredRecipes = await getFeaturedRecipes();
   return (

@@ -137,6 +137,7 @@ const AddRecipeForm = () => {
         setImageUrl("");
         setIngredients([""]);
         setInstructions([""]);
+        window.location.reload();
       } else {
         toast.error("Failed to publish recipe. Please try again.");
       }

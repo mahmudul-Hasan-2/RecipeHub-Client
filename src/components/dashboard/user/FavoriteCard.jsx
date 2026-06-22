@@ -69,7 +69,7 @@ const FavoriteCard = ({ recipe }) => {
             size="sm"
             color="primary"
             variant="flat"
-            className="w-full font-bold rounded-xl flex items-center justify-center gap-2 group-hover:bg-primary group-hover:text-white transition-all"
+            className="w-full font-bold rounded-xl flex items-center justify-center gap-2 group-hover:bg-primary dark:group-hover:text-white group-hover:text-black transition-all"
           >
             View Details <ArrowRight size={14} />
           </Button>

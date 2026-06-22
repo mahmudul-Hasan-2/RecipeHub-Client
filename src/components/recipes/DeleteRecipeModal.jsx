@@ -23,7 +23,7 @@ const DeleteRecipeModal = ({ recipe }) => {
     setIsDeleting(true);
 
     try {
-      const response = await deleteRecipe(recipe._id);
+      const response = await deleteRecipe(recipe._id || recipe.recipeId);
 
       if (response?.deletedCount > 0 || response?.ok || response?.success) {
         toast.success("Recipe deleted successfully!");

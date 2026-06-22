@@ -10,10 +10,5 @@ export async function proxy(request) {
 }
 
 export const config = {
-  matcher: ["/browse-recipes/:path*"],
+  matcher: ["/browse-recipes/:path+", "/dashboard/:path*", "/profile/:path*"],
 };
-
-
-// Realoding please wait
-
-// /browse-recipes/:path* are here any err
