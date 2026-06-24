@@ -143,7 +143,7 @@ const EditRecipeModal = ({ recipe = {} }) => {
     try {
       // 🚀 আপনার সার্ভার অ্যাকশন কল হচ্ছে এখানে
       const response = await updateRecipe(updatedRecipeData, recipe._id);
-        
+
       console.log(response);
 
       // আপনার সার্ভার অ্যাকশনের রিটার্ন টাইপের উপর ভিত্তি করে কন্ডিশন (নরমালি response.ok বা success চেক করা ভালো)
@@ -505,7 +505,7 @@ const EditRecipeModal = ({ recipe = {} }) => {
               </div>
 
               {/* 🎯 Sticky Footer Save Buttons */}
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-zinc-100 dark:border-zinc-900/60 sticky bottom-0 bg-white dark:bg-zinc-950 z-10">
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-zinc-100 dark:border-zinc-900/60 sticky bottom-0 bg-white  z-10">
                 <button
                   type="button"
                   onClick={handleCloseModal}

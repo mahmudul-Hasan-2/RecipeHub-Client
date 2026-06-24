@@ -98,7 +98,7 @@ const DeleteRecipeModal = ({ recipe }) => {
     <>
       <Button
         onClick={() => setIsOpen(true)}
-        className="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-900 text-zinc-500 hover:bg-rose-500 hover:text-white transition-all border border-zinc-200 dark:border-zinc-800"
+        className="p-2.5 rounded-xl bg-zinc-900 text-white hover:bg-rose-500 hover:text-white transition-all border border-zinc-200 dark:border-zinc-800"
       >
         Delete Recipe <FiTrash2 size={16} />
       </Button>
