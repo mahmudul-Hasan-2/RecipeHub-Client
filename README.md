@@ -35,6 +35,16 @@
 - **Icons:** React Icons
 - **Deployment:** Vercel
 
+---
+
+## 📡 API Integration & Data Fetching
+
+- **RESTful API Consumption:** Integrated external/backend API endpoints smoothly to dynamic frontend layouts.
+- **Next.js Data Fetching:** Optimized data fetching using Next.js native `fetch` mechanisms with caching and revalidation strategies.
+- **State Management:** Handled asynchronous API responses, loading states, and error handling seamlessly across the interface.
+
+---
+
 ## 🚀 Quick Start
 
 ### Prerequisites
