@@ -4,7 +4,7 @@
 
 **Your Ultimate Culinary Companion & Recipe Management System**
 
-[**Live Demo**](https://recipehub-client.vercel.app) • [**Report Bug**](https://github.com/YOUR_USERNAME/recipehub/issues)
+[**Live Demo**](https://recipehub-client.vercel.app) • [**Report Bug**](https://github.com/mahmudul-Hasan-2/RecipeHub-Client/issues)
 
 ![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
 ![Tailwind](https://img.shields.io/badge/Tailwind-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
