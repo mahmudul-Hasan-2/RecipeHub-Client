@@ -68,3 +68,11 @@ npm install
 # Run development server
 npm run dev
 ```
+
+---
+
+🌐 Live Deployment & Resources
+🚀 Live Production Link: IdeaVault Live Site
+💻 GitHub Client Code: ideavault-client Repository
+🛡️ API Integration Protocol: RESTful routing guidelines utilized for secure backend integration
+
