@@ -71,8 +71,9 @@ npm run dev
 
 ---
 
-🌐 Live Deployment & Resources
-🚀 Live Production Link: IdeaVault Live Site
-💻 GitHub Client Code: ideavault-client Repository
-🛡️ API Integration Protocol: RESTful routing guidelines utilized for secure backend integration
+
+### 🌐 Live Deployment & Resources
+*   🚀 **Live Production Link:** [RecipeHub Live Site](https://ideavault-client-psi.vercel.app/)
+*   💻 **GitHub Client Code:** [recipeHub-client Repository](https://github.com/mahmudul-Hasan-2/recipeHub-client)
+*   🛡️ **API Integration Protocol:** RESTful routing guidelines utilized for secure backend integration
 
